@@ -1,0 +1,78 @@
+.login_page {
+    background-image:url('@/assets/images/p3.jpg');
+    // vh 屏幕高度
+    height: 100vh;  
+    // 最小高度
+    min-height: 550px;
+    // 背景大小填充整个容器
+    width: 100%;
+    background-size: cover;
+
+    .login_box{
+        // 父级高度的百分比
+        height: 90%;
+        // 父级宽度的百分比
+        width: 90%;
+        // 透明度
+        background-color: rgba(22, 124, 153, 0.4);
+        // 边框圆角
+        border-radius: 10px;
+        // 相对定位让其居中
+        position: relative;
+        // 左侧偏移两个百分点,算法是上面的height的剩余百分比除以2，
+        left: 5%;
+        top: 5%;
+        // 让里面的内容居中
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        
+
+        .left_box{
+            width: 400px;
+            .img_left_box{
+                width: 100%;
+                height: 100%;
+                
+            }
+
+        };
+        .login_form{
+            width: 600px;
+            height: 400px;
+            background-color: #fff;
+            border-radius: 3%;
+            // 设置阴影
+            box-shadow: 0 0 5px #9e5f5f;
+
+            .header{
+                display: flex;
+                height: 100px;
+                // 内容居中
+                align-items: center;
+                justify-content: center;
+                .logo{
+                    img{
+                        height: 80px;
+                        width: 100px;
+                    }
+                }
+                .title{
+                    
+                    color: #000;
+                    font-size: 28px;
+                    // 字体加粗
+                    font-weight: bold;
+                }
+            }
+            .right_form{
+                padding: 20%;
+                .el-form-item{
+                    margin-bottom: 30px;
+                }
+            }
+
+        }
+    }
+
+}

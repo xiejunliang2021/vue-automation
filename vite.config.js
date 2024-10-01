@@ -12,5 +12,20 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
-})
+  },
+  
+  css: {
+    loaderOptions: {
+      sass: {
+        // additionalData: `@import '@/assets/styles/variables.scss';`,
+        additionalData: (content, loaderContext) => {
+          const { resourcePath } = loaderContext;
+          if (resourcePath.endsWith("global.scss")) return content;
+          return `@import "@/assets/styles/global.scss"; 
+          ${content}`;
+        },
+      },
+    },
+  },
+});
+
