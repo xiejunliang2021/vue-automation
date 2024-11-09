@@ -39,18 +39,27 @@
 
 <script setup>
 import { ref, reactive } from "vue"
-
+import api from '@/api/index'
+import { ElNotification } from 'element-plus'
+// 登录的表单数据
 const loginForm = reactive({
   username: "",
   password: ""
 })
-
-function loginSubmit(){
-  alert("点击登陆")
+// 提交登录的方法
+async function loginSubmit(){
+  const response = await api.loginApi(loginForm)
+  if (response.status===200){
+    ElNotification({
+    title: 'Success',
+    message: 'This is a success message',
+    type: 'success',
+  })
+  }
 }
 
 </script>
 
 <style lang='scss' scoped>
-@import './login.scss'
+@use './login.scss';
 </style>

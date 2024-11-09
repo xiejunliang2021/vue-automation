@@ -2,7 +2,7 @@ import axios from "axios"
 
 // ================== 基本配置 ==================
 // 后段接口域名的设置
-axios.defaults.baseURL = 'http://168.138.11.4:8000'
+axios.defaults.baseURL = 'http://168.138.5.55:8000'
 
 // 请求成功还是失败的状态
 axios.defaults.validateStatus=function (status) {
@@ -36,6 +36,9 @@ axios.interceptors.response.use(function (response) {
 
 // 后端请求的接口
 export default {
-
+    // 登录接口
+    loginApi(params){
+      return axios.post('/api/users/login/', params, {withCredentials: true})
+    }
 }
 
