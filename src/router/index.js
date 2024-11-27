@@ -15,6 +15,12 @@ const router = createRouter({
       path: '/user/login',
       name: 'login',
       component: () => import('@/views/login/LoginView.vue')
+    },
+    // 项目管理页面
+    {
+      path: '/stock/stock',
+      name: 'stock',
+      component: () => import('@/views/stock/stockView.vue')
     }
 
   ]

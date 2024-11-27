@@ -20,6 +20,10 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 导入全局项目的css样式
 import './style/global.scss'
 
+// 导入pinia对象
+import pinia from '@/stores/index'
+
+
 
 
 // 创建一个应用
@@ -42,6 +46,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
   }
 
+// 注册pinia
+app.use(pinia)
 
 // 挂载根节点
 app.mount('#app')
