@@ -14,11 +14,11 @@
 
         </div>
         <div class="right_form">
-          <el-form :model="loginForm" label-width="auto" style="max-width: 600px">
-            <el-form-item label="账号">
+          <el-form :model="loginForm" label-width="auto" style="max-width: 600px" :rules="loginRules">
+            <el-form-item label="账号" prop="username">
               <el-input prefix-icon="User" v-model="loginForm.username" placeholder="请输入账号"/>
             </el-form-item>
-            <el-form-item label="密码">
+            <el-form-item label="密码" prop="password">
               <el-input prefix-icon="Lock" type="password" v-model="loginForm.password" placeholder="请输入密码"/>
             </el-form-item>
             <el-form-item>
@@ -80,6 +80,12 @@ async function loginSubmit() {
       // 从后端返回的错误信息中提取
       const errorData = error.response.data;
       let errorMessage = "未知错误";
+      alert(errorData)
+      ElNotification({
+        title: '登录失败',
+        message: response.data,
+        type: 'Error',
+      });
 
       // 检查是否存在具体错误信息
       if (errorData.error) {
@@ -122,6 +128,24 @@ async function getTs() {
     console.error("请求失败：", error); // 捕获并处理错误
   }
 }
+
+const loginRules = reactive({
+// 校验字段不能为空
+  username:[
+    {
+      required: true,
+      message: '请输入账号',
+      trigger: 'blur',
+    },
+  ],
+  password:[
+    {
+      required: true,
+      message: '密码不能为空',
+      trigger: 'blur',
+    },
+  ]
+})
 
 
 </script>
