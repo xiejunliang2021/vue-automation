@@ -1,8 +1,11 @@
 import axios from "axios"
+// 导入保存token的文件
+import {UserStore} from '@/stores/module/UserStore'
+import { ElNotification } from 'element-plus'
 
 // ================== 基本配置 ==================
 // 后段接口域名的设置
-axios.defaults.baseURL = 'http://168.138.5.55:8000'
+axios.defaults.baseURL = 'http://127.0.0.1:8000'
 
 // 请求成功还是失败的状态
 axios.defaults.validateStatus=function (status) {
@@ -18,7 +21,14 @@ axios.defaults.withCredentials=true
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    if(config.url !== '/api/users/login/'){
+      const Ustore = UserStore()
+      const token = Ustore.token
+      config.headers.Authorization = 'Bearer' + token
+    }
     return config;
+    
+    
   }, function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
@@ -27,6 +37,13 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
     // 2xx 范围内的状态码都会触发该函数。
+    if(response.status === 401){
+      ElNotification({
+        title: 'Error',
+        message: 'This is an error message',
+        type: 'error',
+      })
+    }
     // 对响应数据做点什么
     return response;
   }, function (error) {
@@ -79,6 +96,10 @@ export default {
     },
     getStockList(){
       return axios.post('/api/basics/get_stock_list/',{params:{ "ts_code": "600110.SH","trade_date": "20241113"}})
+    },
+    
+    getCodeList(page = 1, pageSize = 10){
+      return axios.get('/api/basics/basic/',{params:{ page, pageSize }})
     }
 }
 

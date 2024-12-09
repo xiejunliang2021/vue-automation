@@ -194,20 +194,10 @@
                 </el-scrollbar>
               </el-main> -->
             </el-container>
-            
           </template>
         </el-container>
-        
       </div>
-      
     </div>
-    <el-pagination
-    :current-page="currentPage"
-    :page-size="pageSize"
-    :total="totalStocks"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  />
   </div>
 </template>
 
@@ -229,10 +219,11 @@ interface StockItem {
 }
 
 const stockService = {
-  async getStockBasicList() {
+  async getStockBasicList(page = 1, pageSize = 10) {
     try {
-      const response = await api.getCodeList()
-      console.log('API Response:', response);
+      const response = await api.getCodeList(), {
+        params: { page, pageSize }
+      }
       return response.data
     } catch (error) {
       console.error('获取股票基本信息失败:', error)
@@ -242,46 +233,36 @@ const stockService = {
 }
 
 // 响应式数据
-const tableData = ref<StockBasic[]>([]);
-const loading = ref(true);
-const totalStocks = ref(0);
-const currentPage = ref(1);
-const pageSize = ref(10);
+const tableData = ref<StockBasic[]>([])
+const loading = ref(true)
+const totalStocks = ref(0)
 
-// 数据加载函数
-const fetchStockData = async (page = 1, pageSize = 10) => {
+// 数据加载
+const fetchStockData = async () => {
   try {
-    loading.value = true;
-    const response = await api.getCodeList(page, pageSize);
-
-    // 提取返回数据中的结果和总数
-    const { results, count } = response.data;
-
-    tableData.value = results || [];
-    totalStocks.value = count || 0;
+    loading.value = true
+    const data = await stockService.getStockBasicList()
+    tableData.value = data
+    totalStocks.value = data.length
   } catch (error) {
-    console.error('数据加载失败:', error);
-    ElMessage.error('数据加载失败');
+    ElMessage.error('数据加载失败')
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
-
+}
 
 // 分页处理方法
 const handleSizeChange = (size: number) => {
-  pageSize.value = size;
-  fetchStockData(currentPage.value, pageSize.value);
-};
+  console.log(`每页 ${size} 条`)
+}
 
 const handleCurrentChange = (page: number) => {
-  currentPage.value = page;
-  fetchStockData(currentPage.value, pageSize.value);
+  console.log(`当前第 ${page} 页`)
 }
 
 // 组件挂载时获取数据
 onMounted(() => {
-  fetchStockData(currentPage.value, pageSize.value)
+  fetchStockData()
 })
 
 // 响应式变量

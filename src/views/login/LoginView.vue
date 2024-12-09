@@ -14,7 +14,7 @@
 
         </div>
         <div class="right_form">
-          <el-form :model="loginForm" label-width="auto" style="max-width: 600px" :rules="loginRules">
+          <el-form :model="loginForm" label-width="auto" style="max-width: 600px" :rules="loginRules" ref="loginFormRef">
             <el-form-item label="账号" prop="username">
               <el-input prefix-icon="User" v-model="loginForm.username" placeholder="请输入账号"/>
             </el-form-item>
@@ -22,8 +22,8 @@
               <el-input prefix-icon="Lock" type="password" v-model="loginForm.password" placeholder="请输入密码"/>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="loginSubmit" icon="User" round style="width: 155px;">登陆</el-button>
-              <el-button icon="RefreshRight" @click="getTs" round style="width: 155px;">重置</el-button>
+              <el-button type="primary" @click="loginSubmit(loginFormRef)" icon="User" round style="width: 155px;">登陆</el-button>
+              <el-button icon="RefreshRight" @click=resetForm(loginFormRef) round style="width: 155px;">重置</el-button>
 
             </el-form-item>
           </el-form>
@@ -46,6 +46,8 @@ import {useRouter} from 'vue-router'
 import { UserStore } from "@/stores/module/UserStore"
 
 
+
+
 // 登录的表单数据
 const loginForm = reactive({
   username: "",
@@ -55,9 +57,20 @@ const loginForm = reactive({
 const router = useRouter()
 // 实例化用户的store对象
 const userStore = UserStore()
+// 表单引用对象
+const loginFormRef = ref()
+// 重置表单的方法
+function resetForm(elForm){
+  if(!elForm) return
+  elForm.resetFields()
+
+}
 // 提交登录的方法
-async function loginSubmit() {
-  try {
+ function loginSubmit(elForm) {
+  // 进行表单预校验
+  elForm.validate(async function(res){
+    if(!res) return
+    try {
     const response = await api.loginApi(loginForm); // 调用 API
 
     // 成功逻辑
@@ -114,6 +127,8 @@ async function loginSubmit() {
       });
     }
   }
+  })
+  
 }
 
 async function getTs() {

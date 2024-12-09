@@ -1,0 +1,137 @@
+.stock_img {
+   // 使用相对定位，确保子元素的位置基于此容器
+   position: relative;
+   // 设置容器的高度为视口高度
+   height: 100vh;
+   // 设置容器的宽度为100%（占满整个父容器）
+   width: 100vw; // 避免滚动条问题
+   // 隐藏溢出内容
+   overflow: hidden;
+ 
+   // 为背景图片添加一个伪元素
+   &::before {
+       // 设置伪元素的内容为空
+       content: '';
+       // 使用绝对定位，覆盖整个父容器
+       position: absolute;
+       // 设置伪元素的上下左右边界为0
+       top: 0;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       // 设置背景图片
+       background-image: url('@/assets/images/stock_02.jpg');
+       // 背景图片保持比例缩放并完全覆盖容器
+       background-size: cover;
+       // 背景图片居中显示
+       background-position: center;
+       // 背景图片不重复
+       background-repeat: no-repeat;
+       // 设置z-index为-1，使伪元素位于内容后面
+       z-index: -1;
+       // 放大图片以避免边缘可能出现空白
+       transform: scale(1.1);
+   }
+
+   // 定义一个覆盖层，用于添加半透明背景和其他内容
+   .stock_overlay {
+       // 设置覆盖层的背景为半透明白色
+       background: rgba(255, 255, 255, 0.7);
+       // 设置圆角效果
+       border-radius: 10px;
+       // 设置覆盖层宽度为背景宽度的90%
+       width: 90%;
+       // 设置覆盖层高度为背景高度的90%
+       height: 90%;
+       // 使用绝对定位，便于定位覆盖层
+       position: absolute;
+       // 使用flex布局居中内容
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       // 设置覆盖层左侧和顶部的偏移
+       left: 5%;
+       top: 5%;
+
+       // 定义表格容器的样式
+       .stock_table {
+           // 表格宽度为覆盖层宽度的90%
+           width: 90%;
+           // 表格高度为覆盖层高度的90%
+           height: 90%;
+           // 使用flex布局居中内容
+           display: flex;
+           justify-content: center;
+           align-items: center;
+
+           // 定义布局容器中的头部样式
+           .layout-container-demo .el-header {
+               // 使用相对定位
+               position: relative;
+               // 设置背景颜色
+               background-color: var(--el-color-primary-light-7);
+               // 设置文本颜色
+               color: var(--el-text-color-primary);
+           }
+           // 定义布局容器中的侧边栏样式
+           .layout-container-demo .el-aside {
+               // 设置文本颜色
+               color: var(--el-text-color-primary);
+               // 设置背景颜色
+               background: var(--el-color-primary-light-8);
+           }
+           // 移除菜单的右侧边框
+           .layout-container-demo .el-menu {
+               border-right: none;
+           }
+           // 移除主内容区域的内边距
+           .layout-container-demo .el-main {
+               padding: 0;
+           }
+           // 定义工具栏的样式
+           .layout-container-demo .toolbar {
+               // 设置工具栏为内联flex布局
+               display: inline-flex;
+               align-items: center;
+               justify-content: center;
+               // 设置工具栏的高度
+               height: 100%;
+               // 设置工具栏距离右侧的偏移量
+               right: 20px;
+           }
+        
+       }
+       
+   }
+   .stock-table-container {
+    padding: 20px;
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  // 移动设备样式
+  &.mobile-view {
+    height: auto;
+    width: 100%;
+    overflow: visible;
+
+    &::before {
+      display: none;
+    }
+
+    .stock_overlay {
+      background: transparent;
+      position: static;
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+      left: 0;
+      top: 0;
+    }
+  }
+}
